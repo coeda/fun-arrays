@@ -65,7 +65,21 @@ sumOfBankBalances = Math.round(100*sumOfBankBalances)/100;
     Delaware
   the result should be rounded to the nearest cent
  */
-var sumOfInterests = null;
+
+var sumOfInterests = dataset.bankBalances.filter((element) => {
+  if(element.state === 'WI' ||
+    element.state === 'IL' ||
+    element.state === 'WY' ||
+    element.state === 'OH' ||
+    element.state === 'GA' ||
+    element.state === 'DE'){
+    return element;
+  }
+}).map((element) => {
+  return parseFloat(element.amount) * 0.189;
+}).reduce((p, c) => {
+  return Math.round(100 * parseFloat(p)) /100 + Math.round( 100 * parseFloat(c))/ 100 ;
+});
 
 /*
   set sumOfHighInterests to the sum of the 18.9% interest
@@ -81,7 +95,45 @@ var sumOfInterests = null;
     Delaware
   the result should be rounded to the nearest cent
  */
-var sumOfHighInterests = null;
+let totalInterestPerState = 0;
+let totalInterest = 0;
+var sumOfHighInterests = dataset.bankBalances.filter((element) => {
+
+  if(element.state !== 'WI' &&
+    element.state !== 'IL' &&
+    element.state !== 'WY' &&
+    element.state !== 'OH' &&
+    element.state !== 'GA' &&
+    element.state !== 'DE'){
+    return element;
+  }
+}).sort(function (a, b) {
+  if (a.state > b.state) {
+    return 1;
+  }
+  if (a.state < b.state) {
+    return -1;
+  }
+  return 0;
+}).reduce((p, c) => {
+    console.log(p);
+
+    if(c.state === p.state){
+      totalInterestPerState += Math.round(100 * (parseFloat(c.amount) * 0.189)) / 100;
+    } else {
+      totalInterestPerState += Math.round(100 * (parseFloat(c.amount) * 0.189)) / 100;
+      if(totalInterestPerState > 50000){
+        totalInterest += totalInterestPerState;
+      }
+      totalInterestPerState = 0;
+    }
+
+  console.log(totalInterest);
+  console.log('Total Interest Per State: ' + totalInterestPerState);
+  return c;
+});
+
+sumOfHighInterests = Math.round(100 * totalInterest + totalInterestPerState) / 100;
 
 /*
   aggregate the sum of bankBalance amounts
