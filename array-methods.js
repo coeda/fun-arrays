@@ -45,7 +45,13 @@ var roundedDime = dataset.bankBalances.map((element) => {
 });
 
 // set sumOfBankBalances to the sum of all amounts in bankBalances
-var sumOfBankBalances = null;
+var sumOfBankBalances = dataset.bankBalances.map((element) => {
+  return element.amount;
+}).reduce((p,c) => {
+  return parseFloat(p) + parseFloat(c);
+});
+
+sumOfBankBalances = Math.round(100*sumOfBankBalances)/100;
 
 /*
   set sumOfInterests to the sum of the 18.9% interest
