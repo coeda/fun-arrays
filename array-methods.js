@@ -37,7 +37,12 @@ var roundedDollar = dataset.bankBalances.map((element) => {
     }
   assign the resulting array to `roundedDime`
 */
-var roundedDime = null;
+var roundedDime = dataset.bankBalances.map((element) => {
+  return {
+    "amount": Math.round(10*element.amount)/10,
+    "state": element.state,
+  };
+});
 
 // set sumOfBankBalances to the sum of all amounts in bankBalances
 var sumOfBankBalances = null;
