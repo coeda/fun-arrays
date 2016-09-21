@@ -117,7 +117,6 @@ var sumOfHighInterests = dataset.bankBalances.filter((element) => {
   return 0;
 }).reduce((p, c) => {
     console.log(p);
-
     if(c.state === p.state){
       totalInterestPerState += Math.round(100 * (parseFloat(c.amount) * 0.189)) / 100;
     } else {
